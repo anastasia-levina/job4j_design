@@ -13,11 +13,12 @@ public class EvenIt implements Iterator {
 
     @Override
     public boolean hasNext() {
-        if (pointer >= numbers.length) {
-            return false;
-        }
-        if (numbers[pointer] % 2 != 0) {
+        while (numbers[pointer] % 2 != 0) {
             pointer++;
+            if (pointer >= numbers.length) {
+                pointer = numbers.length - 1;
+                return false;
+            }
         }
         return pointer < numbers.length;
     }

@@ -20,7 +20,7 @@ public class EvenIt implements Iterator {
                 return false;
             }
         }
-        return pointer < numbers.length;
+        return true;
     }
 
     @Override

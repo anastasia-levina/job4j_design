@@ -4,7 +4,6 @@ import java.util.*;
 
 public class SimpleLinked<E> implements Iterable<E> {
 
-    private Node<E> node;
     private int size = 0;
     private int modCount = 0;
     private Node<E> first;
@@ -38,7 +37,7 @@ public class SimpleLinked<E> implements Iterable<E> {
     public Iterator<E> iterator() {
 
         return new Iterator<E>() {
-            private int index = 0;
+            private Node<E> node = first;
             private int expectedModCount = modCount;
 
             @Override
@@ -46,7 +45,7 @@ public class SimpleLinked<E> implements Iterable<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return index < size;
+                return node != null;
             }
 
             @Override
@@ -54,7 +53,9 @@ public class SimpleLinked<E> implements Iterable<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return get(index++);
+                E item = node.item;
+                node = node.next;
+                return item;
             }
         };
     }

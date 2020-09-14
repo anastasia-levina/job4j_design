@@ -18,12 +18,15 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void add(T model) {
-        if (allElements < container.length) {
-            container[allElements++] = model;
-        } else {
-            container = Arrays.copyOf(container, container.length + 1);
+        if (allElements >= container.length) {
+            expand();
         }
+        container[allElements++] = model;
         modCount++;
+    }
+
+    public void expand() {
+        container = Arrays.copyOf(container, container.length + 1);
     }
 
     @Override

@@ -14,9 +14,7 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void add(T model) {
-        if (allElements < array.length) {
-            array[allElements++] = model;
-        }
+        array[allElements++] = model;
     }
 
     public void set(int index, T model) {
@@ -26,12 +24,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
     public void remove(int index) {
         Objects.checkIndex(index, allElements);
-        int i = index;
-        array[i] = null;
-        for (; i < allElements - 1; i++) {
-            array[i] = array[++index];
-        }
-        allElements--;
+        System.arraycopy(array, index + 1, array, index, allElements - index - 1);
     }
 
     public T get(int index) {

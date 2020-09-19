@@ -5,9 +5,9 @@ public class SimpleQueue<T> {
     private final SimpleStack<T> out = new SimpleStack<>();
 
     public T poll() {
-        while (out.isEmpty()) {
+        if (out.isEmpty()) {
             out.push(in.pop());
-            if (!in.isEmpty()) {
+            while (!in.isEmpty()) {
                 out.push(in.pop());
             }
         }

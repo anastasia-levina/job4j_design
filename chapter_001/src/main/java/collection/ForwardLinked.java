@@ -4,18 +4,17 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ForwardLinked<T> implements Iterable<T> {
-    private Node<T> head;
-    private Node<T> last;
     private Node<T> first;
+    private Node<T> last;
 
     public void add(T value) {
-        Node<T> node = new Node<T>(value, null);
-        if (head == null) {
-            head = node;
+        Node<T> node = new Node<>(value, null);
+        if (first == null) {
+            first = node;
             last = node;
             return;
         }
-        Node<T> tail = head;
+        Node<T> tail = first;
         while (tail.next != null) {
             tail = tail.next;
         }
@@ -41,18 +40,18 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     public T deleteLast() {
         T returnVal;
-        if (head == null) {
+        if (first == null) {
             throw new NoSuchElementException();
-        } else if (head == last) {
-            returnVal = head.value;
-            head = null;
+        } else if (first == last) {
+            returnVal = first.value;
+            first = null;
             return returnVal;
         }
-        while (head.next != last) {
-            head = head.next;
+        while (first.next != last) {
+            first = first.next;
         }
         returnVal = last.value;
-        last = head;
+        last = first;
         return returnVal;
     }
 
@@ -60,10 +59,20 @@ public class ForwardLinked<T> implements Iterable<T> {
         return first == null;
     }
 
+    public void revert() {
+        Node<T> temp = first.next;
+        while (first != null) {
+            first.next = null;
+            last.next = first;
+            first = null;
+        }
+        first = temp;
+    }
+
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
-            Node<T> node = head;
+        return new Iterator<>() {
+            Node<T> node = first;
 
             @Override
             public boolean hasNext() {

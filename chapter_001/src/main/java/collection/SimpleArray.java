@@ -29,12 +29,16 @@ public class SimpleArray<T> implements Iterable<T> {
         container = Arrays.copyOf(container, container.length + 1);
     }
 
+    public int size() {
+        return allElements;
+    }
+
     @Override
     public Iterator<T> iterator() {
 
         return new Iterator<T>() {
             private int index = 0;
-            private int expectedModCount = modCount;
+            private final int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {

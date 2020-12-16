@@ -1,38 +1,28 @@
 package collection;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleSet<E> implements Iterable<E> {
 
-    private int allElements = 0;
-    private int modCount = 0;
-    private SimpleArray container = new SimpleArray();
+    private final SimpleArray<E> container = new SimpleArray<>();
 
     public void add(E e) {
-        if (findBy(e)) {
-            return;
-        } else {
+        if (!findBy(e)) {
             container.add(e);
         }
     }
 
     public boolean findBy(E obj) {
         for (Object e : container) {
-            if (e.equals(obj))
+            if (Objects.equals(obj, e))
                 return true;
-            break;
         }
         return false;
     }
 
     public int size() {
-        int rsl = 0;
-        Iterator<E> iterator = iterator();
-        while (iterator.hasNext()) {
-            rsl++;
-            iterator.next();
-        }
-        return rsl;
+        return container.size();
     }
 
     @Override

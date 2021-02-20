@@ -2,7 +2,7 @@ package collection;
 
 import java.util.*;
 
-public class SimpleMap<K, V> implements Iterable<V> {
+public class SimpleMap<K, V> implements Iterable<K> {
 
     private int capacity = 16;
     static final float LOAD_FACTOR = 0.75f;
@@ -18,6 +18,7 @@ public class SimpleMap<K, V> implements Iterable<V> {
             table[hash(key)] = new Node<>(key, value);
             size++;
             modCount++;
+            return true;
         }
         return false;
     }
@@ -26,7 +27,7 @@ public class SimpleMap<K, V> implements Iterable<V> {
         if (table[hash(key)] != null && table[hash(key)].getKey().equals(key)) {
             return table[hash(key)].getValue();
         }
-        throw new NoSuchElementException();
+        return null;
     }
 
     public boolean delete(K key) {
@@ -46,8 +47,8 @@ public class SimpleMap<K, V> implements Iterable<V> {
     void expand() {
         capacity *= 2;
         Node<K, V>[] newTable = new Node[capacity];
-        for (Node c : table) {
-            newTable[hash((K) c.getKey())] = c;
+        for (Node couple : table) {
+            newTable[hash((K) couple.getKey())] = couple;
         }
         table = newTable;
     }
@@ -71,9 +72,9 @@ public class SimpleMap<K, V> implements Iterable<V> {
     }
 
     @Override
-    public Iterator<V> iterator() {
+    public Iterator<K> iterator() {
 
-        return new Iterator<V>() {
+        return new Iterator<K>() {
             private int index = 0;
             private final int expectedModCount = modCount;
 
@@ -86,14 +87,14 @@ public class SimpleMap<K, V> implements Iterable<V> {
             }
 
             @Override
-            public V next() {
+            public K next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 while (table[index] == null) {
                     index++;
                 }
-                return table[index++].getValue();
+                return table[index++].getKey();
             }
         };
     }

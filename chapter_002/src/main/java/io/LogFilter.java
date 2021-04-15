@@ -11,13 +11,7 @@ public class LogFilter {
             return in.lines()
                     .filter(s -> {
                                 String[] elements = s.split(" ");
-                                String lastEl = elements[elements.length - 1];
-                                try {
-                                    Integer.parseInt(lastEl);
-                                    return "404".equals(elements[elements.length - 2]);
-                                } catch (Exception e) {
-                                    return false;
-                                }
+                                return "404".equals(elements[elements.length - 2]);
                             }
                     )
                     .collect(Collectors.toList());

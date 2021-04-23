@@ -21,7 +21,7 @@ public class Config {
                     .filter(s -> !s.isEmpty() && !s.contains("#"))
                     .forEach(s ->
                     {
-                        String[] keyValueArray = s.split(" - ");
+                        String[] keyValueArray = s.split("=");
                         if (keyValueArray.length != 2) {
                             throw new IllegalArgumentException();
                         }

@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class ConfigTest {
     @Test
     public void whenPairWithoutComment() {
-        String path = "C:\\projects\\job4j_design\\app.properties";
+        String path = "../app.properties";
         Config config = new Config(path);
         try {
             config.load();
@@ -22,7 +22,7 @@ public class ConfigTest {
 
     @Test
     public void whenIsNoPair() {
-        String path = "C:\\projects\\job4j_design\\testByNull.properties";
+        String path = "../testByNull.properties";
         Config config = new Config(path);
         try {
             config.load();
@@ -34,7 +34,7 @@ public class ConfigTest {
 
     @Test
     public void whenPairWithComment() {
-        String path = "C:\\projects\\job4j_design\\comment.properties";
+        String path = "../comment.properties";
         Config config = new Config(path);
         try {
             config.load();
@@ -46,7 +46,7 @@ public class ConfigTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void whenException() {
-        String path = "C:\\projects\\job4j_design\\ex.properties";
+        String path = "../ex.properties";
         Config config = new Config(path);
         try {
             config.load();

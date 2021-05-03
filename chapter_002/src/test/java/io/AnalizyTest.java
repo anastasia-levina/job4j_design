@@ -1,6 +1,8 @@
 package io;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
 
@@ -9,10 +11,13 @@ import static org.junit.Assert.*;
 
 public class AnalizyTest {
 
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     @Test
     public void test1() throws IOException {
-        File source = new File("source.csv");
-        File target = new File("target.csv");
+        File source = folder.newFile("source.csv");
+        File target = folder.newFile("target.csv");
         try (PrintWriter out = new PrintWriter(source)) {
             out.println("200 10:56:01" + System.lineSeparator() +
                     "500 10:57:01" + System.lineSeparator() +

@@ -16,10 +16,10 @@ public class ArgsName {
             throw new IllegalArgumentException();
         }
         for (String a : args) {
-            if (a.indexOf("=") == a.length() - 1) {
+            String[] split = a.replaceFirst("-", "").split("=");
+            if (split.length != 2 || split[0].isEmpty() || split[1].isEmpty()) {
                 throw new IllegalArgumentException();
             }
-            String[] split = a.replaceFirst("-", "").split("=");
             values.put(split[0], split[1]);
         }
     }

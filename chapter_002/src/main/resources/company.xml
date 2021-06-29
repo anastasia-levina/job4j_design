@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<company active="true" age="1" name="CompanyCO">
+    <contact zipCode="185543" phone="+7(821)222-22-22"/>
+    <founders>
+        <founder>Alexander Popov</founder>
+        <founder>Maxim Samoilov</founder>
+        <founder>Anna Semyonova</founder>
+    </founders>
+</company>

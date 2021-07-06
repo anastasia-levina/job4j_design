@@ -1,16 +1,31 @@
 package serialization;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.*;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 
+@XmlRootElement(name = "company")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Company {
-    private final boolean active;
-    private final int age;
-    private final String name;
-    private final Contact contact;
-    private final String[] founders;
+
+    @XmlAttribute
+    private boolean active;
+    @XmlAttribute
+    private int age;
+    @XmlAttribute
+    private String name;
+    private Contact contact;
+
+    @XmlElementWrapper(name = "founders")
+    @XmlElement(name = "founder")
+    private String[] founders;
+
+    public Company() {
+    }
 
     public Company(boolean active, int age, Contact contact, String name, String... founders) {
         this.active = active;
@@ -31,27 +46,25 @@ public class Company {
                 + '}';
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         final Company company = new Company(true, 1, new Contact(185543, "+7(821)222-22-22"),
                 "CompanyCO", "Alexander Popov", "Maxim Samoilov", "Anna Semyonova");
 
-        final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(company));
+        JAXBContext context = JAXBContext.newInstance(Company.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        String xml = "";
 
-        final String companyJson =
-                "{"
-                        + "\"active\":true,"
-                        + "\"age\":1,"
-                        + "\"name\":CompanyCO,"
-                        + "\"contact\":"
-                        + "{"
-                        + "\"zipCode\":185543,"
-                        + "\"phone\":\"+7(821)222-22-22\""
-                        + "},"
-                        + "\"founders\":"
-                        + "[\"Alexander Popov\", \"Maxim Samoilov\", \"Anna Semyonova\"]"
-                        + "}";
-        final Company companyMod = gson.fromJson(companyJson, Company.class);
-        System.out.println(companyMod);
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(company, writer);
+            xml = writer.getBuffer().toString();
+            System.out.println(xml);
+        }
+
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        try (StringReader reader = new StringReader(xml)) {
+            Company result = (Company) unmarshaller.unmarshal(reader);
+            System.out.println(result);
+        }
     }
 }
